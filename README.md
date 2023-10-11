@@ -14,10 +14,10 @@ proyecto-flask/<br>
 ├── requirements.txt<br>
 ├── run.py<br>
 
-Pasos para trabajar con el proyecto.....
-Clona el repositorio de Flask en tu máquina local:
--git clone <URL_del_repositorio_de_Flask>
-Instala las dependencias del proyecto Flask desde el archivo requirements.txt:
--pip install -r requirements.txt
-Ejecuta la aplicación
-python run.py
+Pasos para trabajar con el proyecto.....<br>
+Clona el repositorio de Flask en tu máquina local:<br>
+-git clone <URL_del_repositorio_de_Flask><br>
+Instala las dependencias del proyecto Flask desde el archivo requirements.txt:<br>
+-pip install -r requirements.txt<br>
+Ejecuta la aplicación<br>
+python run.py<br>
