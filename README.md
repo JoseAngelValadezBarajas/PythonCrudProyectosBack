@@ -16,7 +16,7 @@ proyecto-flask/<br>
 
 Pasos para trabajar con el proyecto.....<br>
 Clona el repositorio de Flask en tu máquina local:<br>
--git clone <URL_del_repositorio_de_Flask><br>
+-git clone <https://github.com/JoseAngelValadezBarajas/PythonCrudProyectosBack.git><br>
 Instala las dependencias del proyecto Flask desde el archivo requirements.txt:<br>
 -pip install -r requirements.txt<br>
 En el archivo config.py se encuentra un string de conexion de ejemplo, remplaza por la que tu vayas a requerir<br>
