@@ -1,5 +1,13 @@
+"""
+Nombre del proyecto: Proyecto Backend
+Versión: 1.0
+Autor: Valadez Barajas Jose Angel
+"""
 import os
 
+"""
+    Clase de configuración para la aplicación.
+"""
 class Config:
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:pass@127.0.0.1:3306/pythonbd'
     SQLALCHEMY_TRACK_MODIFICATIONS = False  

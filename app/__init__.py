@@ -1,3 +1,8 @@
+"""
+Nombre del proyecto: Proyecto Backend
+Versión: 1.0
+Autor: Valadez Barajas Jose Angel
+"""
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
@@ -14,7 +19,11 @@ from app.routes import proyectos_bp
 from app.routes import auth_bp
 app.register_blueprint(proyectos_bp)
 app.register_blueprint(auth_bp)
-
+"""
+    Maneja las solicitudes OPTIONS para la raíz del proyecto.
+    :return: Respuesta con encabezados CORS configurados.
+    :rtype: make_response
+"""
 @app.route('/', methods=['OPTIONS'])
 def handle_options():
     response = make_response()
@@ -24,6 +33,13 @@ def handle_options():
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response, 200
 
+"""
+    Maneja las solicitudes después de su procesamiento.
+    :param response: Respuesta a la solicitud.
+    :type response: make_response
+    :return: Respuesta con encabezados CORS configurados.
+    :rtype: make_response
+"""
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')

@@ -1,3 +1,7 @@
+"""
+Autor: Valadez Barajas Jose Angel
+Versión: 1.0
+"""
 from flask import Flask
 from flask_cors import CORS
 from flask import request, jsonify, Blueprint, make_response
@@ -9,9 +13,6 @@ from app.models import Usuario
 from app.auth import generate_token
 from config import Config
 
-
-
-
 #CONFIGURACION DE BLUEPRINT
 proyectos_bp = Blueprint('Proyecto', __name__)
 auth_bp = Blueprint('Usuario', __name__)
@@ -19,7 +20,13 @@ auth_bp = Blueprint('Usuario', __name__)
 #CONFIGURACION SE SECRET_KEY
 SECRET_KEY = Config.SECRET_KEY
 
-#LOGICA DE ADMINISTRADOR Y TOKENS
+"""
+    Función decoradora que requiere autenticación del administrador.
+    :param f: Función a decorar.
+    :type f: function
+    :returns: Función decorada.
+    :rtype: function
+"""
 def admin_required_with_cookie(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -30,6 +37,13 @@ def admin_required_with_cookie(f):
             return jsonify({"message": "No eres admin"}, 401)  
     return decorated_function
 
+"""
+    Verifica si el token es válido.
+    :param token: Token a verificar.
+    :type token: str
+    :returns: True si el token es válido, False de lo contrario.
+    :rtype: bool
+"""
 def token_valid(token):
     try:
         payload = decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -43,6 +57,11 @@ def token_valid(token):
         return jsonify({"message": "Error en el servidor"}, 403) 
 
 #RUTAS DE LOGIN
+"""
+    Ruta para iniciar sesión.
+    :returns: Mensaje de éxito o error.
+    :rtype: str
+"""
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json(force=True, silent=True)
@@ -61,7 +80,12 @@ def login():
     
 
 
-#RUTAS PARA CONSUMO DE API CON AUTH   
+#RUTAS PARA CONSUMO DE API CON AUTH  
+"""
+    Ruta para obtener todos los proyectos (requiere autenticación).
+    :returns: Lista de proyectos.
+    :rtype: list
+""" 
 @proyectos_bp.route('/servicios/auth/proyectos', methods=['GET'])
 @admin_required_with_cookie
 def get_auth_proyectos():
@@ -69,6 +93,13 @@ def get_auth_proyectos():
     proyectos_json = [{"id": proyecto.id,"nombre": proyecto.nombre, "projectManager": proyecto.projectManager, "descripcion": proyecto.descripcion, "desarrolladores": proyecto.desarrolladores} for proyecto in proyectos]
     return jsonify({"proyectos": proyectos_json})
 
+"""
+    Ruta para obtener un proyecto por su ID (requiere autenticación).
+    :param id: ID del proyecto.
+    :type id: int
+    :returns: Detalles del proyecto.
+    :rtype: dict
+"""
 @proyectos_bp.route('/servicios/auth/proyectos/<int:id>', methods=['GET'])
 @admin_required_with_cookie
 def get_proyecto(id):
@@ -79,6 +110,11 @@ def get_proyecto(id):
     else:
         return jsonify({"message": "El proyecto no se encuentra en la base de datos"}, 404)
 
+"""
+    Ruta para agregar un nuevo proyecto (requiere autenticación).
+    :returns: Mensaje de éxito o error.
+    :rtype: str
+"""
 @proyectos_bp.route('/servicios/auth/proyectos', methods=['POST'])
 @admin_required_with_cookie
 def add_proyecto():
@@ -88,6 +124,13 @@ def add_proyecto():
     db.session.commit()
     return jsonify({"message": "Se ha agregado un nuevo proyecto"})
 
+"""
+    Ruta para actualizar un proyecto (requiere autenticación).
+    :param id: ID del proyecto.
+    :type id: int
+    :returns: Mensaje de éxito o error.
+    :rtype: str
+"""
 @proyectos_bp.route('/servicios/auth/proyectos/<int:id>', methods=['PUT'])
 @admin_required_with_cookie
 def update_proyecto(id):
@@ -102,6 +145,13 @@ def update_proyecto(id):
     db.session.commit()
     return jsonify({"message": "Se ha actualizado el proyecto"})
 
+"""
+    Ruta para eliminar un proyecto (requiere autenticación).
+    :param id: ID del proyecto.
+    :type id: int
+    :returns: Mensaje de éxito o error.
+    :rtype: str
+"""
 @proyectos_bp.route('/servicios/auth/proyectos/<int:id>', methods=['DELETE'])
 @admin_required_with_cookie
 def delete_proyecto(id):
@@ -114,7 +164,13 @@ def delete_proyecto(id):
 
 
 
-#RUTAS PARA CONSUMO DE API SIN AUTH  
+#RUTAS PARA CONSUMO DE API SIN AUTH
+
+"""
+    Ruta para obtener todos los proyectos (sin autenticación).
+    :returns: Lista de proyectos.
+    :rtype: list
+"""  
 @proyectos_bp.route('/servicios/open/proyectos', methods=['GET'])
 def get_open_proyectos():
     proyectos = Proyecto.query.all()
