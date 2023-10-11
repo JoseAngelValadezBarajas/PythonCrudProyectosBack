@@ -1,5 +1,6 @@
 # PythonCrudProyectosBack
 Favor de revisar los documentos .docx presentes en este repositorio, son las guias detalladas de instalacion, configuracion y manejo de la web.<br>
+
 La estructura del proyecto es la siguiente:<br>
 proyecto-flask/<br>
 │<br>
